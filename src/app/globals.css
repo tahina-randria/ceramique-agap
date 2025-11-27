@@ -1951,6 +1951,61 @@ textarea::placeholder {
 }
 
 /* ============================================
+   Contact Page Styles
+   ============================================ */
+.contact-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--dimension-300);
+}
+
+@media (min-width: 640px) {
+  .contact-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .contact-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.contact-highlight {
+  font-weight: 600;
+  color: var(--color-grey-900);
+  margin-bottom: var(--dimension-050);
+}
+
+.contact-phone a {
+  font-size: var(--size-700);
+  font-weight: 600;
+  color: var(--color-trail-dust-600);
+}
+
+.contact-email a {
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.contact-subtitle {
+  font-weight: 600;
+  color: var(--color-grey-900);
+  margin-top: var(--dimension-200);
+  margin-bottom: var(--dimension-050);
+}
+
+.contact-note {
+  margin-top: var(--dimension-200);
+  font-style: italic;
+  color: var(--color-grey-600);
+}
+
+.contact-link-wrapper {
+  margin-top: var(--dimension-200);
+}
+
+/* ============================================
    Stats Grid Responsive
    ============================================ */
 .stats-grid {

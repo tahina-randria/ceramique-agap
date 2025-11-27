@@ -81,51 +81,44 @@ export default function ContactPage() {
                 {/* Infos de contact en cartes */}
                 <div
                   id="nous-contacter"
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-                    gap: "var(--dimension-300)",
-                  }}
+                  className="contact-cards-grid"
                 >
                   <InfoCard icon="map" title="Adresse">
-                    <p><strong>Maison de la Poterie</strong></p>
-                    <p>Place Fouragnan</p>
-                    <p>33670 Sadirac</p>
-                    <p style={{ marginTop: "var(--dimension-150)" }}>
+                    <p className="contact-highlight">Maison de la Poterie - AGAP</p>
+                    <p className="body-style1-300">Place Fouragnan</p>
+                    <p className="body-style1-300">33670 Sadirac</p>
+                    <p className="contact-link-wrapper">
                       <a
                         href="https://maps.google.com/?q=Place+Fouragnan+33670+Sadirac"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="link"
+                        className="link body-style1-200"
                       >
-                        Ouvrir dans Google Maps →
+                        Voir sur Google Maps →
                       </a>
                     </p>
                   </InfoCard>
 
                   <div id="horaires">
                     <InfoCard icon="phone" title="Téléphone">
-                      <p>
-                        <a href="tel:+33781324294" className="link" style={{ fontSize: "var(--size-700)", fontWeight: 500 }}>
+                      <p className="contact-phone">
+                        <a href="tel:+33781324294">
                           07 81 32 42 94
                         </a>
                       </p>
-                      <p style={{ marginTop: "var(--dimension-150)" }}>
-                        <strong>Horaires d&apos;appel :</strong>
-                      </p>
-                      <p>Mercredi - Dimanche : 14h - 18h</p>
+                      <p className="contact-subtitle">Horaires d&apos;accueil</p>
+                      <p className="body-style1-300">Mercredi au Dimanche</p>
+                      <p className="body-style1-300">14h00 - 18h00</p>
                     </InfoCard>
                   </div>
 
                   <InfoCard icon="mail" title="Email">
-                    <p>
-                      <a href="mailto:centreceramique33@gmail.com" className="link">
+                    <p className="contact-email">
+                      <a href="mailto:centreceramique33@gmail.com">
                         centreceramique33@gmail.com
                       </a>
                     </p>
-                    <p style={{ marginTop: "var(--dimension-150)" }}>
-                      Réponse sous 48h ouvrées
-                    </p>
+                    <p className="contact-note">Réponse sous 48h ouvrées</p>
                   </InfoCard>
                 </div>
 

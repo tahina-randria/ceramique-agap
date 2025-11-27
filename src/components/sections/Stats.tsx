@@ -1,12 +1,37 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Landmark, Users, Calendar, Award } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+}
+
+// Fonction pour extraire le nombre d'une chaîne (ex: "500+" -> 500)
+function extractNumber(value: string): number {
+  const match = value.match(/[\d,.\s]+/);
+  if (match) {
+    return parseFloat(match[0].replace(/[\s,]/g, "").replace(",", "."));
+  }
+  return 0;
+}
+
+// Fonction pour formater le nombre avec le même format que l'original
+function formatNumber(num: number, originalValue: string): string {
+  const hasPlus = originalValue.includes("+");
+  const hasSpace = originalValue.includes(" ");
+
+  // Formatage avec espaces pour les milliers
+  let formatted = Math.round(num).toLocaleString("fr-FR");
+
+  // Ajouter le + si présent dans l'original
+  if (hasPlus) {
+    formatted += "+";
+  }
+
+  return formatted;
 }
 
 interface Stat {
@@ -33,6 +58,8 @@ const iconMap = {
 export default function Stats({ title, subtitle, stats, variant = "default" }: StatsProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const [displayValues, setDisplayValues] = useState<string[]>(stats.map(() => "0"));
+  const hasAnimated = useRef(false);
 
   const isDark = variant === "dark";
   const isCards = variant === "cards";
@@ -84,6 +111,45 @@ export default function Stats({ title, subtitle, stats, variant = "default" }: S
       }
     );
 
+    // Animation counter pour les chiffres
+    if (!hasAnimated.current) {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 80%",
+        onEnter: () => {
+          if (hasAnimated.current) return;
+          hasAnimated.current = true;
+
+          stats.forEach((stat, index) => {
+            const targetNumber = extractNumber(stat.value);
+            const counter = { value: 0 };
+
+            gsap.to(counter, {
+              value: targetNumber,
+              duration: 2,
+              delay: index * 0.1,
+              ease: "power2.out",
+              onUpdate: () => {
+                setDisplayValues((prev) => {
+                  const newValues = [...prev];
+                  newValues[index] = formatNumber(counter.value, stat.value);
+                  return newValues;
+                });
+              },
+              onComplete: () => {
+                // S'assurer que la valeur finale est exacte
+                setDisplayValues((prev) => {
+                  const newValues = [...prev];
+                  newValues[index] = stat.value;
+                  return newValues;
+                });
+              },
+            });
+          });
+        },
+      });
+    }
+
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => {
         if (trigger.vars.trigger === section) {
@@ -91,7 +157,7 @@ export default function Stats({ title, subtitle, stats, variant = "default" }: S
         }
       });
     };
-  }, []);
+  }, [stats]);
 
   return (
     <section
@@ -181,18 +247,19 @@ export default function Stats({ title, subtitle, stats, variant = "default" }: S
                   />
                 </div>
 
-                {/* Valeur - Grande et proeminente */}
+                {/* Valeur - Grande et proeminente avec animation counter */}
                 <div
-                  className="title-style4-600"
+                  className="title-style4-600 stat-value"
                   style={{
                     color: isCards
                       ? "var(--color-trail-dust-600)"
                       : "var(--color-core-white)",
                     marginBottom: "var(--dimension-150)",
                     lineHeight: 1,
+                    fontVariantNumeric: "tabular-nums",
                   }}
                 >
-                  {stat.value}
+                  {displayValues[index]}
                 </div>
 
                 {/* Label */}

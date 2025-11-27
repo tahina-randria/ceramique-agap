@@ -43,6 +43,10 @@ export const metadata: Metadata = {
     default: "Maison de la Poterie | AGAP - Sadirac",
     template: "%s | Maison de la Poterie - Sadirac",
   },
+  icons: {
+    icon: "/images/logos/favicon.webp",
+    apple: "/images/logos/favicon.webp",
+  },
   description:
     "Découvrez la Maison de la Poterie de Sadirac, haut lieu de la céramique depuis le XIVe siècle. Ateliers pour enfants et adultes, expositions, visites scolaires et événements culturels.",
   keywords: [
