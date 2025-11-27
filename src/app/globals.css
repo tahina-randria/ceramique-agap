@@ -1662,6 +1662,43 @@ body {
 }
 
 /* ============================================
+   Two Column Grid Responsive
+   ============================================ */
+.two-col-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dimension-400);
+}
+
+@media (min-width: 768px) {
+  .two-col-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--dimension-500);
+    align-items: center;
+  }
+}
+
+/* Bénévoles CTA */
+.benevoles-cta {
+  padding: var(--dimension-300);
+  background-color: var(--color-trail-dust-600);
+  border-radius: var(--radius-large);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--dimension-200);
+}
+
+@media (min-width: 480px) {
+  .benevoles-cta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* ============================================
    Ateliers Page Responsive
    ============================================ */
 

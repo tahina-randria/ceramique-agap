@@ -52,15 +52,7 @@ export default function PresentationPage() {
         {/* Qui sommes-nous */}
         <section id="qui-sommes-nous" className="section-p-default">
           <div className="wrapper">
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "var(--dimension-500)",
-                alignItems: "center",
-              }}
-              className="lg:grid-cols-2"
-            >
+            <div className="two-col-grid">
               <div>
                 <h2 className="title-style4-700" style={{ marginBottom: "var(--dimension-300)" }}>
                   Qui sommes-nous ?
@@ -279,15 +271,7 @@ export default function PresentationPage() {
         {/* Le lieu */}
         <section className="section-p-default background--secondary">
           <div className="wrapper">
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "var(--dimension-500)",
-                alignItems: "center",
-              }}
-              className="lg:grid-cols-2"
-            >
+            <div className="two-col-grid">
               <div
                 style={{
                   borderRadius: "var(--radius-large)",
@@ -314,18 +298,7 @@ export default function PresentationPage() {
                 </p>
 
                 {/* Bénévoles CTA */}
-                <div
-                  style={{
-                    padding: "var(--dimension-300)",
-                    backgroundColor: "var(--color-trail-dust-600)",
-                    borderRadius: "var(--radius-large)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    flexWrap: "wrap",
-                    gap: "var(--dimension-200)",
-                  }}
-                >
+                <div className="benevoles-cta">
                   <div>
                     <p
                       className="title-style1-500"
