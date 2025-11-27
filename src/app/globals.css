@@ -1234,22 +1234,32 @@ body {
 .footer__social {
   display: flex;
   align-items: center;
-  gap: var(--dimension-100);
-  margin-top: var(--dimension-200);
+  gap: var(--dimension-150);
+  margin-top: var(--dimension-300);
 }
 
-.footer__social a {
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-primary);
   color: var(--color-core-white);
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.footer__social a:hover {
-  color: var(--color-trail-dust-300);
+.footer__social-link:hover {
+  background-color: var(--color-trail-dust-300);
+  color: var(--color-grey-900);
+  transform: translateY(-2px);
 }
 
-.footer__social-divider {
-  color: var(--color-grey-600);
+.footer__social-link svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* Navigation Wrapper (nav + map) */
@@ -1867,6 +1877,77 @@ textarea::-moz-selection,
 select::-moz-selection {
   background-color: var(--color-grey-900);
   color: var(--color-core-white);
+}
+
+/* ============================================
+   Form Inputs Global Styles
+   ============================================ */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+textarea,
+select {
+  background-color: var(--color-core-white);
+  color: var(--color-grey-900);
+  font-family: var(--font-sans), var(--font-sans-fallback);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-trail-dust-600) !important;
+  box-shadow: 0 0 0 3px rgba(116, 75, 57, 0.15);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-grey-600);
+  opacity: 1;
+}
+
+/* ============================================
+   Social Links Section
+   ============================================ */
+.social-section {
+  background-color: var(--color-trail-dust-600);
+  padding: var(--dimension-400);
+  border-radius: var(--radius-primary);
+}
+
+.social-buttons {
+  display: flex;
+  gap: var(--dimension-200);
+  flex-wrap: wrap;
+}
+
+.social-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dimension-100);
+  padding: var(--dimension-150) var(--dimension-300);
+  background-color: var(--color-core-white);
+  color: var(--color-grey-900);
+  border-radius: var(--radius-primary);
+  font-weight: 500;
+  font-size: var(--size-500);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.social-button svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* ============================================
