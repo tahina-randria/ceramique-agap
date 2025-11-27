@@ -7,8 +7,8 @@ export default defineConfig({
   name: "ceramique-agap",
   title: "Maison de la Poterie - AGAP",
 
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "",
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
+  projectId: "o34ifnc2",
+  dataset: "production",
 
   basePath: "/studio",
 
