@@ -74,6 +74,13 @@ export default defineType({
       type: "boolean",
       initialValue: false,
     }),
+    defineField({
+      name: "publie",
+      title: "Publié",
+      type: "boolean",
+      description: "Cocher pour afficher l'article sur le site",
+      initialValue: true,
+    }),
   ],
   preview: {
     select: {
