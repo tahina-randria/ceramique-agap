@@ -12,37 +12,6 @@ export const metadata = {
   keywords: ["actualités céramique Sadirac", "événements poterie Gironde", "expositions AGAP"],
 };
 
-// Données statiques de fallback
-const actualitesStatiques = [
-  {
-    _id: "static-1",
-    titre: "Céramique en Fête 2026 : le programme dévoilé",
-    extrait: "Découvrez le programme complet de la nouvelle édition qui se tiendra les 7 et 8 juin 2026.",
-    datePublication: "2025-11-15",
-    imageSrc: "/images/hero/hero-festival.webp",
-    slug: { current: "ceramique-en-fete-2026" },
-    categorie: "evenement",
-  },
-  {
-    _id: "static-2",
-    titre: "Nouvelle exposition : Terres Croisées",
-    extrait: "À partir du 15 septembre, découvrez le travail de Jeremy Coleman, Eukeni Callejo et Laure Carpené.",
-    datePublication: "2025-09-01",
-    imageSrc: "/images/activites/ateliers/jeremy-coleman.webp",
-    slug: { current: "exposition-terres-croisees" },
-    categorie: "exposition",
-  },
-  {
-    _id: "static-3",
-    titre: "Stages d'hiver : inscriptions ouvertes",
-    extrait: "Les inscriptions pour nos stages de décembre et janvier sont ouvertes ! Tournage, modelage, raku...",
-    datePublication: "2025-10-20",
-    imageSrc: "/images/hero/hero-stages.webp",
-    slug: { current: "stages-hiver-2025" },
-    categorie: "atelier",
-  },
-];
-
 interface Actualite {
   _id: string;
   titre: string;
@@ -56,12 +25,9 @@ interface Actualite {
 async function getActualites(): Promise<Actualite[]> {
   try {
     const data = await client.fetch(actualitesQuery);
-    if (data && data.length > 0) {
-      return [...data, ...actualitesStatiques];
-    }
-    return actualitesStatiques;
+    return data || [];
   } catch {
-    return actualitesStatiques;
+    return [];
   }
 }
 
@@ -74,16 +40,24 @@ function formatDate(dateString: string): string {
   });
 }
 
+const categorieLabels: Record<string, string> = {
+  evenement: "Événement",
+  exposition: "Exposition",
+  atelier: "Atelier",
+  association: "Association",
+  musee: "Musée",
+};
+
 export default async function ActualitesPage() {
   const actualites = await getActualites();
 
   return (
     <>
       <Header />
-      <main style={{ paddingTop: "var(--dimension-700)" }}>
-        <section className="section-p-default section-pt-none">
+      <main style={{ paddingTop: "var(--dimension-800)", minHeight: "100vh" }}>
+        <section className="section-p-default">
           <div className="wrapper">
-            <div style={{ marginBottom: "var(--dimension-500)" }}>
+            <div style={{ marginBottom: "var(--dimension-500)", paddingTop: "var(--dimension-200)" }}>
               <h1 className="title-style4-700" style={{ marginBottom: "var(--dimension-200)" }}>
                 Actualités
               </h1>
@@ -92,49 +66,89 @@ export default async function ActualitesPage() {
               </p>
             </div>
 
-            <div className="content-grid">
-              {actualites.map((actu) => (
-                <article
-                  key={actu._id}
-                  style={{
-                    backgroundColor: "var(--color-core-white)",
-                    borderRadius: "var(--radius-primary)",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div className="media media-ratio-16-9">
-                    <img
-                      src={actu.imageSrc || "/images/hero/hero-festival.webp"}
-                      alt={actu.titre}
-                      className="media__image object-cover"
-                    />
-                  </div>
-                  <div style={{ padding: "var(--dimension-300)" }}>
-                    <p
-                      className="body-style1-100 text-content-default-tertiary"
-                      style={{ marginBottom: "var(--dimension-100)" }}
-                    >
-                      {formatDate(actu.datePublication)}
-                    </p>
-                    <h2 className="title-style1-400" style={{ marginBottom: "var(--dimension-150)" }}>
-                      <a href={`/actualites/${actu.slug.current}`} className="link-nav">
-                        {actu.titre}
-                      </a>
-                    </h2>
-                    <p className="body-style1-300 text-content-default-tertiary">
-                      {actu.extrait}
-                    </p>
-                    <a
-                      href={`/actualites/${actu.slug.current}`}
-                      className="link title-style1-200"
-                      style={{ display: "inline-block", marginTop: "var(--dimension-200)" }}
-                    >
-                      Lire la suite
+            {actualites.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "var(--dimension-600)",
+                  backgroundColor: "var(--color-core-white)",
+                  borderRadius: "var(--radius-primary)",
+                }}
+              >
+                <p className="body-style1-400 text-content-default-tertiary">
+                  Aucune actualité pour le moment.
+                </p>
+                <p className="body-style1-300 text-content-default-tertiary" style={{ marginTop: "var(--dimension-100)" }}>
+                  Revenez bientôt pour découvrir nos dernières nouvelles !
+                </p>
+              </div>
+            ) : (
+              <div className="content-grid">
+                {actualites.map((actu) => (
+                  <article
+                    key={actu._id}
+                    style={{
+                      backgroundColor: "var(--color-core-white)",
+                      borderRadius: "var(--radius-primary)",
+                      overflow: "hidden",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                      transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                    }}
+                  >
+                    <a href={`/actualites/${actu.slug.current}`} style={{ display: "block" }}>
+                      <div className="media media-ratio-16-9">
+                        <img
+                          src={actu.imageSrc || "/images/hero/hero-festival.webp"}
+                          alt={actu.titre}
+                          className="media__image object-cover"
+                        />
+                      </div>
                     </a>
-                  </div>
-                </article>
-              ))}
-            </div>
+                    <div style={{ padding: "var(--dimension-300)" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "var(--dimension-150)", marginBottom: "var(--dimension-150)" }}>
+                        {actu.categorie && (
+                          <span
+                            className="body-style1-100"
+                            style={{
+                              padding: "var(--dimension-50) var(--dimension-100)",
+                              backgroundColor: "var(--color-trail-dust-600)",
+                              color: "var(--color-core-white)",
+                              borderRadius: "var(--radius-primary)",
+                              fontSize: "0.75rem",
+                            }}
+                          >
+                            {categorieLabels[actu.categorie] || actu.categorie}
+                          </span>
+                        )}
+                        <span className="body-style1-100 text-content-default-tertiary">
+                          {formatDate(actu.datePublication)}
+                        </span>
+                      </div>
+                      <h2 className="title-style1-400" style={{ marginBottom: "var(--dimension-150)" }}>
+                        <a href={`/actualites/${actu.slug.current}`} className="link-nav">
+                          {actu.titre}
+                        </a>
+                      </h2>
+                      <p className="body-style1-300 text-content-default-tertiary" style={{ marginBottom: "var(--dimension-200)" }}>
+                        {actu.extrait || "Cliquez pour lire l'article complet."}
+                      </p>
+                      <a
+                        href={`/actualites/${actu.slug.current}`}
+                        className="link title-style1-200"
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "var(--dimension-50)",
+                          color: "var(--color-trail-dust-600)",
+                        }}
+                      >
+                        Lire la suite <span>→</span>
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       </main>

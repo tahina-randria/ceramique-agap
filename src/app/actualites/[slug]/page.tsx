@@ -69,13 +69,24 @@ export default async function ActualitePage({ params }: { params: Promise<{ slug
   return (
     <>
       <Header />
-      <main style={{ paddingTop: "var(--dimension-700)" }}>
-        <article className="section-p-default section-pt-none">
+      <main style={{ paddingTop: "var(--dimension-800)", minHeight: "100vh" }}>
+        <article className="section-p-default">
           <div className="wrapper" style={{ maxWidth: "800px" }}>
             {/* Breadcrumb */}
-            <nav style={{ marginBottom: "var(--dimension-300)" }}>
-              <a href="/actualites" className="link body-style1-200">
-                ← Retour aux actualités
+            <nav style={{ marginBottom: "var(--dimension-400)", paddingTop: "var(--dimension-200)" }}>
+              <a
+                href="/actualites"
+                className="link body-style1-300"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "var(--dimension-100)",
+                  color: "var(--color-trail-dust-600)",
+                  textDecoration: "none",
+                  transition: "color 0.2s ease",
+                }}
+              >
+                <span style={{ fontSize: "1.2em" }}>←</span> Retour aux actualités
               </a>
             </nav>
 
