@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import SectionHeader from "@/components/sections/SectionHeader";
-import FeatureCard from "@/components/ui/FeatureCard";
+import { client } from "../../../sanity/lib/client";
+import { actualitesQuery } from "../../../sanity/lib/queries";
 
 export const metadata = {
   title: "Actualités",
@@ -10,64 +10,71 @@ export const metadata = {
   keywords: ["actualités céramique Sadirac", "événements poterie Gironde", "expositions AGAP"],
 };
 
-const actualites = [
+// Données statiques de fallback
+const actualitesStatiques = [
   {
-    title: "Céramique en Fête 2026 : le programme dévoilé",
-    description:
-      "Découvrez le programme complet de la nouvelle édition qui se tiendra les 7 et 8 juin 2026.",
-    date: "15 novembre 2025",
+    _id: "static-1",
+    titre: "Céramique en Fête 2026 : le programme dévoilé",
+    extrait: "Découvrez le programme complet de la nouvelle édition qui se tiendra les 7 et 8 juin 2026.",
+    datePublication: "2025-11-15",
     imageSrc: "/images/hero/hero-festival.webp",
-    imageAlt: "Céramique en Fête 2026",
-    href: "/ceramique-en-fete/edition-2026",
+    slug: { current: "ceramique-en-fete-2026" },
+    categorie: "evenement",
   },
   {
-    title: "Nouvelle exposition : Terres Croisées",
-    description:
-      "À partir du 15 septembre, découvrez le travail de Jeremy Coleman, Eukeni Callejo et Laure Carpené.",
-    date: "1er septembre 2025",
+    _id: "static-2",
+    titre: "Nouvelle exposition : Terres Croisées",
+    extrait: "À partir du 15 septembre, découvrez le travail de Jeremy Coleman, Eukeni Callejo et Laure Carpené.",
+    datePublication: "2025-09-01",
     imageSrc: "/images/activites/ateliers/jeremy-coleman.webp",
-    imageAlt: "Exposition Terres Croisées",
-    href: "/musee/temporaires",
+    slug: { current: "exposition-terres-croisees" },
+    categorie: "exposition",
   },
   {
-    title: "Stages d'hiver : inscriptions ouvertes",
-    description:
-      "Les inscriptions pour nos stages de décembre et janvier sont ouvertes ! Tournage, modelage, raku...",
-    date: "20 octobre 2025",
+    _id: "static-3",
+    titre: "Stages d'hiver : inscriptions ouvertes",
+    extrait: "Les inscriptions pour nos stages de décembre et janvier sont ouvertes ! Tournage, modelage, raku...",
+    datePublication: "2025-10-20",
     imageSrc: "/images/hero/hero-stages.webp",
-    imageAlt: "Stages de céramique",
-    href: "/activites/stages",
-  },
-  {
-    title: "Retour sur Céramique en Fête 2024",
-    description:
-      "50 exposants, 2 500 visiteurs : retour en images sur une édition réussie.",
-    date: "15 septembre 2025",
-    imageSrc: "/images/musee/piece-decorative.webp",
-    imageAlt: "Céramique en Fête 2024",
-    href: "/ceramique-en-fete/archives-2024",
-  },
-  {
-    title: "Partenariat avec les écoles de Bordeaux Métropole",
-    description:
-      "Le musée accueillera plus de 2000 élèves cette année dans le cadre de son programme pédagogique.",
-    date: "1er septembre 2025",
-    imageSrc: "/images/activites/ateliers/atelier-enfants.webp",
-    imageAlt: "Programme scolaire",
-    href: "/activites/parcours",
-  },
-  {
-    title: "Nouveaux ateliers adultes : tournage avancé",
-    description:
-      "Un nouvel atelier pour les céramistes confirmés souhaitant perfectionner leur technique de tournage.",
-    date: "15 août 2025",
-    imageSrc: "/images/hero/hero-ateliers.webp",
-    imageAlt: "Atelier tournage avancé",
-    href: "/activites/ateliers",
+    slug: { current: "stages-hiver-2025" },
+    categorie: "atelier",
   },
 ];
 
-export default function ActualitesPage() {
+interface Actualite {
+  _id: string;
+  titre: string;
+  extrait: string;
+  datePublication: string;
+  imageSrc: string | null;
+  slug: { current: string };
+  categorie: string;
+}
+
+async function getActualites(): Promise<Actualite[]> {
+  try {
+    const data = await client.fetch(actualitesQuery);
+    if (data && data.length > 0) {
+      return [...data, ...actualitesStatiques];
+    }
+    return actualitesStatiques;
+  } catch {
+    return actualitesStatiques;
+  }
+}
+
+function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export default async function ActualitesPage() {
+  const actualites = await getActualites();
+
   return (
     <>
       <Header />
@@ -84,9 +91,9 @@ export default function ActualitesPage() {
             </div>
 
             <div className="content-grid">
-              {actualites.map((actu, index) => (
+              {actualites.map((actu) => (
                 <article
-                  key={index}
+                  key={actu._id}
                   style={{
                     backgroundColor: "var(--color-core-white)",
                     borderRadius: "var(--radius-primary)",
@@ -95,8 +102,8 @@ export default function ActualitesPage() {
                 >
                   <div className="media media-ratio-16-9">
                     <img
-                      src={actu.imageSrc}
-                      alt={actu.imageAlt}
+                      src={actu.imageSrc || "/images/hero/hero-festival.webp"}
+                      alt={actu.titre}
                       className="media__image object-cover"
                     />
                   </div>
@@ -105,18 +112,18 @@ export default function ActualitesPage() {
                       className="body-style1-100 text-content-default-tertiary"
                       style={{ marginBottom: "var(--dimension-100)" }}
                     >
-                      {actu.date}
+                      {formatDate(actu.datePublication)}
                     </p>
                     <h2 className="title-style1-400" style={{ marginBottom: "var(--dimension-150)" }}>
-                      <a href={actu.href} className="link-nav">
-                        {actu.title}
+                      <a href={`/actualites/${actu.slug.current}`} className="link-nav">
+                        {actu.titre}
                       </a>
                     </h2>
                     <p className="body-style1-300 text-content-default-tertiary">
-                      {actu.description}
+                      {actu.extrait}
                     </p>
                     <a
-                      href={actu.href}
+                      href={`/actualites/${actu.slug.current}`}
                       className="link title-style1-200"
                       style={{ display: "inline-block", marginTop: "var(--dimension-200)" }}
                     >
@@ -125,20 +132,6 @@ export default function ActualitesPage() {
                   </div>
                 </article>
               ))}
-            </div>
-
-            {/* Pagination placeholder */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "var(--dimension-100)",
-                marginTop: "var(--dimension-500)",
-              }}
-            >
-              <button className="button button--tertiary button--100">1</button>
-              <button className="button button--secondary button--100">2</button>
-              <button className="button button--secondary button--100">3</button>
             </div>
           </div>
         </section>
