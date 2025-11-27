@@ -4,6 +4,14 @@ import { groq } from "next-sanity";
 
 const baseUrl = "https://ceramique-agap.vercel.app";
 
+async function getActualites() {
+  const query = groq`*[_type == "actualite" && (publie == true || !defined(publie))] | order(datePublication desc) {
+    slug,
+    datePublication
+  }`;
+  return client.fetch(query);
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Pages statiques
   const staticPages: MetadataRoute.Sitemap = [
@@ -20,49 +28,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/musee/collections`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/musee/expositions`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/musee/parcours`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
       url: `${baseUrl}/activites`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/activites/ateliers`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/activites/stages`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/activites/scolaires`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/festival`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
@@ -71,42 +37,38 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/association`,
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.7,
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/actualites`,
       lastModified: new Date(),
-      changeFrequency: "daily",
+      changeFrequency: "weekly",
       priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/ceramique-en-fete`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
     },
   ];
 
-  // Pages dynamiques depuis Sanity (actualités)
-  let dynamicPages: MetadataRoute.Sitemap = [];
-
-  try {
-    const actualites = await client.fetch(
-      groq`*[_type == "actualite" && (publie == true || !defined(publie))] | order(datePublication desc) {
-        slug,
-        datePublication
-      }`
-    );
-
-    dynamicPages = actualites.map((article: { slug: { current: string }; datePublication: string }) => ({
-      url: `${baseUrl}/actualites/${article.slug.current}`,
-      lastModified: new Date(article.datePublication),
+  // Pages dynamiques des actualités
+  const actualites = await getActualites();
+  const actualitePages: MetadataRoute.Sitemap = actualites.map(
+    (actu: { slug: { current: string }; datePublication: string }) => ({
+      url: `${baseUrl}/actualites/${actu.slug.current}`,
+      lastModified: new Date(actu.datePublication),
       changeFrequency: "monthly" as const,
       priority: 0.6,
-    }));
-  } catch (error) {
-    console.error("Erreur lors de la récupération des actualités pour le sitemap:", error);
-  }
+    })
+  );
 
-  return [...staticPages, ...dynamicPages];
+  return [...staticPages, ...actualitePages];
 }
