@@ -1641,8 +1641,17 @@ body {
    ============================================ */
 .bureau-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: var(--dimension-300) var(--dimension-200);
+  grid-template-columns: 1fr !important;
+  gap: var(--dimension-250);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+@media (min-width: 480px) {
+  .bureau-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--dimension-300) var(--dimension-200);
+  }
 }
 
 @media (min-width: 768px) {

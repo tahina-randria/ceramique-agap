@@ -13,11 +13,11 @@ export const metadata = {
 export default function PresentationPage() {
   const bureauMembers = [
     { role: "Président", name: "Jean-François Bourlard" },
-    { role: "Co-présidente", name: "Gaëlle Borrachero" },
-    { role: "Trésorier", name: "Hervé Roux" },
-    { role: "Trésorière adjointe", name: "Christiane Delsart" },
-    { role: "Secrétaire", name: "Josianne Monteil" },
-    { role: "Secrétaire adjoint", name: "Gilles Van de Walle" },
+    { role: "Co-Présidente", name: "Gaëlle Borrachero" },
+    { role: "Trésorière", name: "Anne-Marie Millera" },
+    { role: "Trésorière", name: "Sylvie Manchado" },
+    { role: "Secrétaire", name: "Laure Carpené" },
+    { role: "Chargée de développement", name: "Odile Garat" },
   ];
 
   const partners = [
@@ -260,16 +260,7 @@ export default function PresentationPage() {
                 <h3 className="title-style1-500">Le bureau</h3>
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, 1fr)",
-                  gap: "var(--dimension-300) var(--dimension-400)",
-                  maxWidth: "700px",
-                  margin: "0 auto",
-                }}
-                className="bureau-grid"
-              >
+              <div className="bureau-grid">
                 {bureauMembers.map((member, index) => (
                   <div key={index} style={{ textAlign: "center" }}>
                     <p className="title-style1-400" style={{ marginBottom: "var(--dimension-050)" }}>
@@ -280,48 +271,6 @@ export default function PresentationPage() {
                     </p>
                   </div>
                 ))}
-              </div>
-
-              {/* Salarié */}
-              <div
-                style={{
-                  marginTop: "var(--dimension-500)",
-                  padding: "var(--dimension-400)",
-                  backgroundColor: "var(--color-grey-100)",
-                  borderRadius: "var(--radius-large)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "var(--dimension-400)",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    width: "120px",
-                    height: "120px",
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                    flexShrink: 0,
-                  }}
-                >
-                  <img
-                    src="/images/association/christophe.webp"
-                    alt="Christophe"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                  />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p className="body-style1-200 text-content-default-tertiary" style={{ marginBottom: "var(--dimension-050)" }}>
-                    Notre salarié
-                  </p>
-                  <p className="title-style1-500" style={{ marginBottom: "var(--dimension-100)" }}>
-                    Christophe
-                  </p>
-                  <p className="body-style1-400 text-content-default-tertiary">
-                    Christophe assure l&apos;accueil du public, la gestion quotidienne de la Maison de la Poterie
-                    et accompagne les visiteurs dans leur découverte du musée.
-                  </p>
-                </div>
               </div>
             </div>
           </div>
