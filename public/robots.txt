@@ -1,0 +1,18 @@
+# robots.txt - Maison de la Poterie de Sadirac
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ceramique-agap.vercel.app/sitemap.xml
+
+# Disallow admin areas
+Disallow: /studio
+Disallow: /api/
+
+# Allow search engines to crawl all public pages
+Allow: /actualites
+Allow: /musee
+Allow: /activites
+Allow: /association
+Allow: /contact
+Allow: /festival
