@@ -7,6 +7,10 @@ import Testimonials from "@/components/sections/Testimonials";
 import FeatureCard from "@/components/ui/FeatureCard";
 import InfoCard from "@/components/ui/InfoCard";
 import Button from "@/components/ui/Button";
+import { client } from "../../sanity/lib/client";
+import { actualitesEnVedetteQuery, actualitesQuery } from "../../sanity/lib/queries";
+
+export const revalidate = 0;
 
 export const metadata = {
   title: "Maison de la Poterie | AGAP Sadirac - Musée, Ateliers & Céramique",
@@ -21,7 +25,30 @@ export const metadata = {
   ],
 };
 
-export default function Home() {
+interface Actualite {
+  _id: string;
+  titre: string;
+  extrait: string;
+  datePublication: string;
+  imageSrc: string | null;
+  slug: { current: string };
+  categorie: string;
+}
+
+async function getActualitesEnVedette(): Promise<Actualite[]> {
+  try {
+    let articles = await client.fetch(actualitesEnVedetteQuery);
+    if (!articles || articles.length === 0) {
+      articles = await client.fetch(actualitesQuery);
+    }
+    return (articles || []).slice(0, 3);
+  } catch {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const actualites = await getActualitesEnVedette();
   return (
     <>
       <Header />
@@ -72,7 +99,7 @@ export default function Home() {
           ]}
         />
 
-        {/* À la une Section */}
+        {/* À la une Section - Actualités dynamiques de Sanity */}
         <section id="actualites-recentes" className="section-p-default">
           <div className="wrapper">
             <SectionHeader
@@ -82,31 +109,69 @@ export default function Home() {
               ctaHref="/actualites"
             />
             <div className="content-grid">
-              <FeatureCard
-                title="Céramique en Fête 2026"
-                description="Les 7 et 8 juin 2026, retrouvez plus de 40 céramistes, des ateliers, démonstrations et la cuisson du four à bois. Le rendez-vous incontournable !"
-                imageSrc="/images/hero/hero-festival.webp"
-                imageAlt="Marché de céramistes en plein air"
-                href="/ceramique-en-fete/edition-2026"
-                ctaLabel="Découvrir le programme"
-                variant="extended"
-              />
-              <FeatureCard
-                title="Exposition : Terres Croisées"
-                description="Jusqu'au 15 mars 2025, découvrez le travail de Jeremy Coleman, Eukeni Callejo et Laure Carpené. Tradition et modernité en dialogue."
-                imageSrc="/images/hero/hero-temporaires.webp"
-                imageAlt="Céramiques contemporaines exposées"
-                href="/musee/temporaires"
-                ctaLabel="Voir l'exposition"
-              />
-              <FeatureCard
-                title="Inscriptions ateliers ouvertes"
-                description="Tournage, modelage, émaillage... Rejoignez nos ateliers hebdomadaires pour enfants (dès 6 ans) et adultes. Places limitées !"
-                imageSrc="/images/hero/hero-ateliers.webp"
-                imageAlt="Atelier de poterie en cours"
-                href="/activites/ateliers"
-                ctaLabel="S'inscrire"
-              />
+              {actualites.length > 0 ? (
+                <>
+                  {actualites[0] && (
+                    <FeatureCard
+                      title={actualites[0].titre}
+                      description={actualites[0].extrait || "Découvrez notre dernière actualité."}
+                      imageSrc={actualites[0].imageSrc || "/images/hero/hero-festival.webp"}
+                      imageAlt={actualites[0].titre}
+                      href={`/actualites/${actualites[0].slug.current}`}
+                      ctaLabel="Lire l'article"
+                      variant="extended"
+                    />
+                  )}
+                  {actualites[1] && (
+                    <FeatureCard
+                      title={actualites[1].titre}
+                      description={actualites[1].extrait || "Découvrez notre actualité."}
+                      imageSrc={actualites[1].imageSrc || "/images/hero/hero-temporaires.webp"}
+                      imageAlt={actualites[1].titre}
+                      href={`/actualites/${actualites[1].slug.current}`}
+                      ctaLabel="Lire l'article"
+                    />
+                  )}
+                  {actualites[2] && (
+                    <FeatureCard
+                      title={actualites[2].titre}
+                      description={actualites[2].extrait || "Découvrez notre actualité."}
+                      imageSrc={actualites[2].imageSrc || "/images/hero/hero-ateliers.webp"}
+                      imageAlt={actualites[2].titre}
+                      href={`/actualites/${actualites[2].slug.current}`}
+                      ctaLabel="Lire l'article"
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  <FeatureCard
+                    title="Céramique en Fête 2025"
+                    description="Les 7 et 8 juin 2025, retrouvez plus de 40 céramistes avec Jean-Nicolas Gérard comme invité d'honneur. Le rendez-vous incontournable !"
+                    imageSrc="/images/hero/hero-festival.webp"
+                    imageAlt="Marché de céramistes en plein air"
+                    href="/ceramique-en-fete"
+                    ctaLabel="Découvrir le programme"
+                    variant="extended"
+                  />
+                  <FeatureCard
+                    title="Nos ateliers de céramique"
+                    description="Tournage, modelage, émaillage... Rejoignez nos ateliers hebdomadaires pour enfants (dès 6 ans) et adultes."
+                    imageSrc="/images/hero/hero-ateliers.webp"
+                    imageAlt="Atelier de poterie en cours"
+                    href="/activites"
+                    ctaLabel="Voir les ateliers"
+                  />
+                  <FeatureCard
+                    title="Visiter le musée"
+                    description="Plus de 200 céramiques du XIVe au XIXe siècle témoignent de 600 ans de tradition potière à Sadirac."
+                    imageSrc="/images/hero/hero-musee.webp"
+                    imageAlt="Collections du musée"
+                    href="/musee"
+                    ctaLabel="Découvrir"
+                  />
+                </>
+              )}
             </div>
           </div>
         </section>
