@@ -5,6 +5,8 @@ import { actualiteBySlugQuery } from "../../../../sanity/lib/queries";
 import { PortableText } from "@portabletext/react";
 import { notFound } from "next/navigation";
 
+export const revalidate = 0;
+
 interface Actualite {
   _id: string;
   titre: string;

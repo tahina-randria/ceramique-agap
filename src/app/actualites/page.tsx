@@ -3,6 +3,8 @@ import Footer from "@/components/layout/Footer";
 import { client } from "../../../sanity/lib/client";
 import { actualitesQuery } from "../../../sanity/lib/queries";
 
+export const revalidate = 0;
+
 export const metadata = {
   title: "Actualités",
   description:
