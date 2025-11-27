@@ -91,7 +91,7 @@ export default function Header() {
         {/* Logo a gauche */}
         <Link href="/" className="header__logo-link">
           <Image
-            src="/images/logos/logo-agap-maison-blanc.png"
+            src="/images/logos/logo-agap-maison-blanc.webp"
             alt="Maison de la Poterie - AGAP"
             width={180}
             height={50}
