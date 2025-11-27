@@ -48,6 +48,19 @@ const categorieLabels: Record<string, string> = {
   musee: "Musée",
 };
 
+// Images par défaut selon la catégorie
+const categorieImages: Record<string, string> = {
+  evenement: "/images/hero/hero-festival.webp",
+  exposition: "/images/hero/hero-temporaires.webp",
+  atelier: "/images/hero/hero-ateliers.webp",
+  association: "/images/hero/hero-association.webp",
+  musee: "/images/hero/hero-musee.webp",
+};
+
+function getDefaultImage(categorie: string): string {
+  return categorieImages[categorie] || "/images/hero/hero-festival.webp";
+}
+
 export default async function ActualitesPage() {
   const actualites = await getActualites();
 
@@ -98,7 +111,7 @@ export default async function ActualitesPage() {
                     <a href={`/actualites/${actu.slug.current}`} style={{ display: "block" }}>
                       <div className="media media-ratio-16-9">
                         <img
-                          src={actu.imageSrc || "/images/hero/hero-festival.webp"}
+                          src={actu.imageSrc || getDefaultImage(actu.categorie)}
                           alt={actu.titre}
                           className="media__image object-cover"
                         />

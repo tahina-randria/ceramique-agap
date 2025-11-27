@@ -65,7 +65,7 @@ export default function ExpositionsTemporairesPage() {
         <Hero
           title="Expositions Temporaires"
           subtitle="L'art céramique sous toutes ses formes"
-          imageSrc="/images/hero/hero-expositions.webp"
+          imageSrc="/images/hero/hero-temporaires.webp"
           imageAlt="Exposition de céramique contemporaine"
           primaryCta={{
             label: "Voir l'exposition actuelle",

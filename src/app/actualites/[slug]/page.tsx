@@ -56,6 +56,19 @@ const categorieLabels: Record<string, string> = {
   musee: "Musée",
 };
 
+// Images par défaut selon la catégorie
+const categorieImages: Record<string, string> = {
+  evenement: "/images/hero/hero-festival.webp",
+  exposition: "/images/hero/hero-temporaires.webp",
+  atelier: "/images/hero/hero-ateliers.webp",
+  association: "/images/hero/hero-association.webp",
+  musee: "/images/hero/hero-musee.webp",
+};
+
+function getDefaultImage(categorie: string): string {
+  return categorieImages[categorie] || "/images/hero/hero-festival.webp";
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const actualite = await getActualite(slug);
@@ -135,22 +148,20 @@ export default async function ActualitePage({ params }: { params: Promise<{ slug
             </header>
 
             {/* Image principale */}
-            {actualite.imageSrc && (
-              <div
-                className="media media-ratio-16-9"
-                style={{
-                  marginBottom: "var(--dimension-400)",
-                  borderRadius: "var(--radius-primary)",
-                  overflow: "hidden",
-                }}
-              >
-                <img
-                  src={actualite.imageSrc}
-                  alt={actualite.titre}
-                  className="media__image object-cover"
-                />
-              </div>
-            )}
+            <div
+              className="media media-ratio-16-9"
+              style={{
+                marginBottom: "var(--dimension-400)",
+                borderRadius: "var(--radius-primary)",
+                overflow: "hidden",
+              }}
+            >
+              <img
+                src={actualite.imageSrc || getDefaultImage(actualite.categorie)}
+                alt={actualite.titre}
+                className="media__image object-cover"
+              />
+            </div>
 
             {/* Extrait */}
             {actualite.extrait && (
@@ -234,7 +245,7 @@ export default async function ActualitePage({ params }: { params: Promise<{ slug
                     <a href={`/actualites/${article.slug.current}`} style={{ display: "block" }}>
                       <div className="media media-ratio-16-9">
                         <img
-                          src={article.imageSrc || "/images/hero/hero-festival.webp"}
+                          src={article.imageSrc || getDefaultImage(article.categorie)}
                           alt={article.titre}
                           className="media__image object-cover"
                         />
