@@ -18,7 +18,7 @@ const expositionActuelle = {
     "Invité d'honneur de la 38e édition de Céramique en Fête, Jean-Nicolas Gérard expose son travail à la Maison de la Poterie. Depuis plus de 40 ans, il façonne la terre vernissée avec une liberté rare, explorant sans cesse les liens entre forme, matière et usage. Son travail se distingue par une spontanéité brute, une immédiateté du geste que beaucoup recherchent sans parvenir à l'égaler.",
   citation: "« J'aime que mes pots soient utilisés. Je veux que les gens aient envie de s'en servir au quotidien. »",
   biographie: "Formé à l'École des Beaux-Arts d'Aix-en-Provence en 1978 par Jean Biagini, Jean-Nicolas Gérard se perfectionne auprès de Claire Bogino et Paul Salmona, figures majeures de la terre vernissée. Aujourd'hui reconnu internationalement, il expose aux quatre coins du monde : États-Unis, Australie, Chine, Japon.",
-  image: "/images/musee/piece-contemporaine.webp",
+  image: "/images/activites/stages/artiste-jng.webp",
 };
 
 const expositionsPassees = [
