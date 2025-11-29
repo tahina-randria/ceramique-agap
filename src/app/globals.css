@@ -11,8 +11,8 @@
   --color-core-white: oklch(100% 0 0);
 
   /* Brand Colors - Nouvelle palette AGAP */
-  --color-trail-dust-100: #f5ebe5;
-  --color-trail-dust-600: #744B39; /* Brun Terre Cuite - Principal */
+  --color-trail-dust-100: #e8eff5;
+  --color-trail-dust-600: #1e3a5f; /* Bleu Navy - Principal */
   --color-blue-600: #0678BA; /* Bleu Ardoise */
   --color-coral-600: #EC754F; /* Argile Orangée */
   --color-orange-600: #EC754F; /* Argile Orangée */
@@ -1731,14 +1731,14 @@ body {
   }
 }
 
-/* Additional Trail Dust Colors - Brun Terre Cuite variants */
+/* Additional Trail Dust Colors - Bleu Navy variants */
 :root {
-  --color-trail-dust-50: #faf6f4;
-  --color-trail-dust-200: #e0ccc4;
-  --color-trail-dust-300: #c9b0a4;
-  --color-trail-dust-400: #a8806e;
-  --color-trail-dust-500: #8a6354;
-  --color-trail-dust-700: #5a3a2d;
+  --color-trail-dust-50: #f0f4f8;
+  --color-trail-dust-200: #b8c9db;
+  --color-trail-dust-300: #7a9bbe;
+  --color-trail-dust-400: #4a6d91;
+  --color-trail-dust-500: #2d4f73;
+  --color-trail-dust-700: #152a42;
 }
 
 /* ============================================
